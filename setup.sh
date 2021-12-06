@@ -47,7 +47,7 @@ function root_pre() {
   #https://download.splunk.com/products/splunk/releases/8.2.2.2/linux/splunk-8.2.2.2-e89a7a0a7f22-linux-2.6-x86_64-fips.rpm.md5
 
   logger -s "Install splunk enterprise"
-  sudo yum install $PACKAGE -yk
+  sudo yum install $PACKAGE -y
 
   # This has the NET effect of creating an account called 'splunk'
   # Our service account is also 'splunk' - so when we configure, we will configure in the non-priv account
