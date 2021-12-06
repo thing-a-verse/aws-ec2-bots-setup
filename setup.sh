@@ -68,6 +68,8 @@ function main() {
   headline_logger -s "Start ${0} installation as `whoami`"
   SVC=${1}
 
+
+  logger -s "PATH=`echo $PATH`"
   logger -s "Start splunk and accept the EULA"
 
   splunk start --accept-license --answer-yes --no-prompt --seed-passwd password123
