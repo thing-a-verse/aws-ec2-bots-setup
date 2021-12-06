@@ -65,6 +65,7 @@ function root_post() {
 
 # SVC commands - run as unpriv user, install main application
 function main() {
+  
   headline_logger -s "Start ${0} installation as `whoami`"
   SVC=${1}
 
