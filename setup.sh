@@ -70,7 +70,7 @@ function main() {
 
   logger -s "Start splunk and accept the EULA"
 
-  #splunk start --accept-license --answer-yes --no-prompt --seed-passwd password123
+  splunk start --accept-license --answer-yes --no-prompt --seed-passwd password123
 
 
 }
