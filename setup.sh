@@ -73,7 +73,26 @@ function main() {
   logger -s "PATH=`echo $PATH`"
   logger -s "Start splunk and accept the EULA"
 
-  splunk start --accept-license --answer-yes --no-prompt --seed-passwd password123
+  USER=admin
+  PASS=password123
+  # default user is admin
+  splunk start --accept-license --answer-yes --no-prompt --seed-passwd $PASS
+
+
+  # create alice
+  USER=alice
+  PASS=password123
+  ROLE=user
+  DOMAIN=acme.com
+  NAME="Alice"
+
+  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
+
+  # Create bob
+  USER=bob
+  NAME="Robert"
+  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
+
 
 
 }
