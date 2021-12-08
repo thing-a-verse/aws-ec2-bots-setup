@@ -87,7 +87,7 @@ function splunk_load() {
 
   # Load data
   logger -s "Loading $LOGDATA into $INDEX_NAME "
-  splunk add oneshot $LOGDATA -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
+  splunk add oneshot $STAGING -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
 }
 
