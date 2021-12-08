@@ -82,7 +82,7 @@ function main() {
   headline_logger -s "Configure some users, indexes and basic configuration"
 
   splunk login -auth $USER:$PASS
-  
+
   # create alice
   USER=alice
   PASS=password123
@@ -100,15 +100,25 @@ function main() {
 
   # Create index
   INDEX_NAME=apache
-  INDEX_MAX=1
+  INDEX_MAX=100
   logger -s "Create index $INDEX_NAME"
-  splunk add index $INDEX_NAME -maxDataSize $INDEX_MAX
+  # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
+  splunk add index $INDEX_NAME -maxTotalDataSizeMB $INDEX_MAX
+
+
+  # Import some data
+  LOGDATA=apache.log
+  HOSTNAME=grumpy
+  SOURCE=/var/log/httpd/error_log
+  SOURCETYPE="apache:error"
+  wget -nv -O $LOGDATA ttps://github.com/logpai/loghub/blob/master/Apache/Apache_2k.log
+  splunk add oneshot $LOGDATA -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
   # Create index
   INDEX_NAME=windows
-  INDEX_MAX=1
+  INDEX_MAX=100
   logger -s "Create index $INDEX_NAME"
-  splunk add index $INDEX_NAME -maxDataSize $INDEX_MAX
+  splunk add index $INDEX_NAME -maxTotalDataSizeMB $INDEX_MAX
 
 }
 
