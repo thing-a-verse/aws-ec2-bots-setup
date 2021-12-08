@@ -111,7 +111,10 @@ function main() {
   HOSTNAME=grumpy
   SOURCE=/var/log/httpd/error_log
   SOURCETYPE="apache:error"
+  logger -s "Fetching some sample data into $LOGDATA"
   wget -nv -O $LOGDATA ttps://github.com/logpai/loghub/blob/master/Apache/Apache_2k.log
+  
+  logger -s "Loading $LOGDATA into $INDEX_NAME "
   splunk add oneshot $LOGDATA -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
   # Create index
