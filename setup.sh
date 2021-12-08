@@ -63,6 +63,35 @@ function root_post() {
 
 }
 
+function splunk_index() {
+  INDEX_NAME=$1
+  INDEX_MAX=$2
+  #
+  logger -s "Create index $INDEX_NAME"
+
+  # Create index
+  splunk add index $INDEX_NAME -maxTotalDataSizeMB $INDEX_MAX
+}
+
+function splunk_load() {
+  INDEX_NAME=$1
+  LOGSRC=$2
+  STAGING=$3
+  HOSTNAME=$4
+  SOURCE=$5
+  SOURCETYPE=$6
+
+  # Fetch data
+  logger -s "Fetching some sample data into $LOGDATA"
+  wget -nv -O $STAGING $LOGSRC
+
+  # Load data
+  logger -s "Loading $LOGDATA into $INDEX_NAME "
+  splunk add oneshot $LOGDATA -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
+
+}
+
+
 # SVC commands - run as unpriv user, install main application
 function main() {
 
@@ -98,30 +127,25 @@ function main() {
   logger -s "Create user $USER"
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
 
-  # Create index
-  INDEX_NAME=apache
-  INDEX_MAX=100
-  logger -s "Create index $INDEX_NAME"
-  # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
-  splunk add index $INDEX_NAME -maxTotalDataSizeMB $INDEX_MAX
+
+   # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
+
+  # Some apache data
+  SRC=https://raw.githubusercontent.com/logpai/loghub/master/Apache/Apache_2k.log
+  FILE=apache.log
+  splunk_index apache 100
+  splunk_load apache $SRC $FILE grumpy /var/log/httpd/error_log "apache:error"
 
 
-  # Import some data
-  LOGDATA=apache.log
-  HOSTNAME=grumpy
-  SOURCE=/var/log/httpd/error_log
-  SOURCETYPE="apache:error"
-  logger -s "Fetching some sample data into $LOGDATA"
-  wget -nv -O $LOGDATA https://github.com/logpai/loghub/blob/master/Apache/Apache_2k.log
-
-  logger -s "Loading $LOGDATA into $INDEX_NAME "
-  splunk add oneshot $LOGDATA -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
   # Create index
-  INDEX_NAME=windows
-  INDEX_MAX=100
-  logger -s "Create index $INDEX_NAME"
-  splunk add index $INDEX_NAME -maxTotalDataSizeMB $INDEX_MAX
+  splunk_index windows 100
+
+  SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
+  FILE=windows.log
+  splunk_index osnixsec 100
+  splunk_load osnixsec $SRC $FILE LabSZ /var/log/auth.log "linux_secure"
+  # https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/Listofpretrainedsourcetypes
 
 }
 
