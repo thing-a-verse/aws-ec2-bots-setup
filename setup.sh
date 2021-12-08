@@ -81,7 +81,8 @@ function main() {
 
   headline_logger -s "Configure some users, indexes and basic configuration"
 
-
+  splunk login -auth $USER:$PASS
+  
   # create alice
   USER=alice
   PASS=password123
