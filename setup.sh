@@ -128,7 +128,8 @@ function main() {
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
 
 
-   # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
+  # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
+  # https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/Listofpretrainedsourcetypes
 
   # Some apache data
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/Apache/Apache_2k.log
@@ -137,15 +138,15 @@ function main() {
   splunk_load apache $SRC $FILE grumpy /var/log/httpd/error_log "apache:error"
 
 
-
   # Create index
   splunk_index windows 100
 
+  # some ssh data
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
   FILE=windows.log
   splunk_index osnixsec 100
   splunk_load osnixsec $SRC $FILE LabSZ /var/log/auth.log "linux_secure"
-  # https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/Listofpretrainedsourcetypes
+
 
 }
 
