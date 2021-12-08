@@ -93,7 +93,10 @@ function main() {
   NAME="Robert"
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
 
-
+  # Create index
+  INDEX_NAME=apache
+  INDEX_MAX=1
+  splunk add index $INDEX_NAME -maxDataSize $INDEX_MAX
 
 }
 
