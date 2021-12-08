@@ -79,23 +79,34 @@ function main() {
   splunk start --accept-license --answer-yes --no-prompt --seed-passwd $PASS
 
 
+  headline_logger -s "Configure some users, indexes and basic configuration"
+
+
   # create alice
   USER=alice
   PASS=password123
   ROLE=user
   DOMAIN=acme.com
   NAME="Alice"
-
+  logger -s "Create user $USER"
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
 
   # Create bob
   USER=bob
   NAME="Robert"
+  logger -s "Create user $USER"
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
 
   # Create index
   INDEX_NAME=apache
   INDEX_MAX=1
+  logger -s "Create index $INDEX_NAME"
+  splunk add index $INDEX_NAME -maxDataSize $INDEX_MAX
+
+  # Create index
+  INDEX_NAME=windows
+  INDEX_MAX=1
+  logger -s "Create index $INDEX_NAME"
   splunk add index $INDEX_NAME -maxDataSize $INDEX_MAX
 
 }
