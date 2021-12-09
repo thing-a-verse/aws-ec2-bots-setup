@@ -172,7 +172,7 @@ function main() {
   FILE=windows.log
   splunk_index osnixsec 100
   splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
-    "linux_secure" "s|Dec 10]|Dec 01]|g"
+    "linux_secure" "s|Dec 10]|Dec 02]|g"
 
   # Squid Proxy Logs, from https://www.secrepo.com/
   SRC=https://www.secrepo.com/squid/access.log.gz
