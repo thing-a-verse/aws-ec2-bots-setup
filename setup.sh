@@ -157,13 +157,13 @@ function main() {
 
   # Fetch some apache logs, alter the date to DEC 2021
   FILE=apache.log.gz
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/error_log \
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/access_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-02.gz $FILE secrepo /var/log/httpd/error_log \
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-02.gz $FILE secrepo /var/log/httpd/access_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-03.gz $FILE secrepo /var/log/httpd/error_log \
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-03.gz $FILE secrepo /var/log/httpd/access_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/error_log \
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/access_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
 
   # Create index
@@ -180,7 +180,8 @@ function main() {
   SRC=https://www.secrepo.com/squid/access.log.gz
   FILE=squid.log.gz
   splunk_index squid_proxy 100
-  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log "squid:access"
+  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
+    "squid" "s|1157699|3156799|g"
 
 }
 
