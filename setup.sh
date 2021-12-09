@@ -204,8 +204,14 @@ function main() {
   FILE=ftp.log.gz
   splunk_index ftp 100
   splunk_load ftp $SRC $FILE secrepo /var/log/ftp.log \
-    "ftp" "s|133201|163903|g"    
+    "ftp" "s|133201|163903|g"
 
+
+  SRC=https://www.secrepo.com/maccdc2012/dns.log.gz
+  FILE=dns.log.gz
+  splunk_index dns 100
+  splunk_load dns $SRC $FILE secrepo /var/log/dns.log \
+    "dns" "s|133190|163903|g"  
 }
 
 SVC=${2:-ctfd}
