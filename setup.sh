@@ -170,11 +170,17 @@ function main() {
   splunk_index windows 100
 
   # some ssh data, alter date to Dec 02
-  SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
-  FILE=windows.log
   splunk_index osnixsec 100
+  SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
+  FILE=auth.log
+
   splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
     "linux_secure" "s|Dec 10]|Dec 02]|g"
+
+  SRC=https://www.secrepo.com/auth.log/auth.log.gz
+  FILE=auth.log
+  splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
+    "linux_secure"
 
   # Squid Proxy Logs, from https://www.secrepo.com/
   SRC=https://www.secrepo.com/squid/access.log.gz
