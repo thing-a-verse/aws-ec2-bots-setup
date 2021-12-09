@@ -94,10 +94,10 @@ function splunk_load() {
        logger -s "Uncompressing $STAGING"
        gzip -cd $STAGING > $TMPFILE
     fi
-    logger -s "Applying transformation $SEDSTR to $STAGING"
+    logger -s "Applying transformation $SEDSTR to $TMPFILE"
     sed -i $SEDSTR $TMPFILE
-    # overwrite staging file
-    cp $TMPFILE $STAGING
+    # use the newfile
+    STAGING=$TMPFILE
   fi
 
   # Load data
