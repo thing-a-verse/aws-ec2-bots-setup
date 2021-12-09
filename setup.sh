@@ -146,12 +146,14 @@ function main() {
   # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
   # https://docs.splunk.com/Documentation/Splunk/8.2.2/Data/Listofpretrainedsourcetypes
 
-  # Some apache data
+  # Some apache data, alter the date to 2021
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/Apache/Apache_2k.log
   FILE=apache.log
   splunk_index apache 100
-  splunk_load apache $SRC $FILE logpai /var/log/httpd/error_log "apache:error"
+  splunk_load apache $SRC $FILE logpai /var/log/httpd/error_log \
+    "apache:error" "s|2005]|2021]|g"
 
+  # Fetch some apache logs, alter the date to DEC 2021
   FILE=apache.log.gz
   splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/error_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
@@ -169,7 +171,8 @@ function main() {
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
   FILE=windows.log
   splunk_index osnixsec 100
-  splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log "linux_secure"
+  splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
+    "linux_secure" "s|Dec 10]|Dec 01]|g"
 
   # Squid Proxy Logs, from https://www.secrepo.com/
   SRC=https://www.secrepo.com/squid/access.log.gz
