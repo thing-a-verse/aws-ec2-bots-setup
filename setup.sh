@@ -80,13 +80,28 @@ function splunk_load() {
   HOSTNAME=$4
   SOURCE=$5
   SOURCETYPE=$6
+  SEDSTR=$7
+
 
   # Fetch data
-  logger -s "Fetching some sample data into $LOGDATA"
+  logger -s "Fetching some sample data into $STAGING"
   wget -nv -O $STAGING $LOGSRC
 
+  # Apply a modification to the content
+  if [ ! -z $SEDSTR ]; then
+    TMPFILE=tmp.log
+    if ( file $STAGING | grep -q compressed ); then
+       logger -s "Uncompressing $STAGING"
+       gzip -cd $STAGING > $TMPFILE
+    fi
+    logger -s "Applying transformation $SEDSTR to $STAGING"
+    sed -i $SEDSTR $TMPFILE
+    # overwrite staging file
+    cp $TMPFILE $STAGING
+  fi
+
   # Load data
-  logger -s "Loading $LOGDATA into $INDEX_NAME "
+  logger -s "Loading $STAGING into $INDEX_NAME "
   splunk add oneshot $STAGING -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
 }
@@ -137,11 +152,15 @@ function main() {
   splunk_index apache 100
   splunk_load apache $SRC $FILE logpai /var/log/httpd/error_log "apache:error"
 
-
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-02.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-03.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
-  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
+  FILE=apache.log.gz
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/error_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-02.gz $FILE secrepo /var/log/httpd/error_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-03.gz $FILE secrepo /var/log/httpd/error_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/error_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
 
   # Create index
   splunk_index windows 100
