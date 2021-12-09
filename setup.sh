@@ -192,11 +192,19 @@ function main() {
     "linux_secure"
 
   # Squid Proxy Logs, from https://www.secrepo.com/
-  #SRC=https://www.secrepo.com/squid/access.log.gz
-  #FILE=squid.log.gz
-  #splunk_index squid_proxy 100
-  #splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
-  #  "squid" "s|1157699|3156799|g"
+  SRC=https://www.secrepo.com/squid/access.log.gz
+  FILE=squid.log.gz
+  splunk_index squid_proxy 100
+  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
+    "squid" "s|1157699|1639030|g"
+
+
+  # Squid Proxy Logs, from https://www.secrepo.com/
+  SRC=https://www.secrepo.com/maccdc2012/ftp.log.gz
+  FILE=ftp.log.gz
+  splunk_index ftp 100
+  splunk_load ftp $SRC $FILE secrepo /var/log/ftp.log \
+    "ftp" "s|133201|163903|g"    
 
 }
 
