@@ -196,7 +196,7 @@ function main() {
   FILE=squid.log.gz
   splunk_index squid_proxy 100
   splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
-    "squid" "s|1157699|1639030|g"
+    "squid" "s|1157|1638|g"
 
 
   # Squid Proxy Logs, from https://www.secrepo.com/
@@ -204,14 +204,14 @@ function main() {
   FILE=ftp.log.gz
   splunk_index ftp 100
   splunk_load ftp $SRC $FILE secrepo /var/log/ftp.log \
-    "ftp" "s|133201|163903|g"
+    "ftp" "s|1332|1638|g"
 
 
   SRC=https://www.secrepo.com/maccdc2012/dns.log.gz
   FILE=dns.log.gz
   splunk_index dns 100
   splunk_load dns $SRC $FILE secrepo /var/log/dns.log \
-    "dns" "s|133190|163903|g"  
+    "dns" "s|1331|1638|g"
 }
 
 SVC=${2:-ctfd}
