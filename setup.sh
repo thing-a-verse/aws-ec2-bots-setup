@@ -93,6 +93,8 @@ function splunk_load() {
     if ( file $STAGING | grep -q compressed ); then
        logger -s "Uncompressing $STAGING"
        gzip -cd $STAGING > $TMPFILE
+    else
+       cp $STAGING $TMPFILE
     fi
     logger -s "Applying transformation $SEDSTR to $TMPFILE"
     sed -i $SEDSTR $TMPFILE
@@ -167,7 +169,7 @@ function main() {
   # Create index
   splunk_index windows 100
 
-  # some ssh data
+  # some ssh data, alter date to Dec 02
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
   FILE=windows.log
   splunk_index osnixsec 100
