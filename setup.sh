@@ -194,9 +194,9 @@ function main() {
   # Squid Proxy Logs, from https://www.secrepo.com/
   SRC=https://www.secrepo.com/squid/access.log.gz
   FILE=squid.log.gz
-  splunk_index squid_proxy 100
-  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
-    "squid" "s|1157|1638|g"
+  splunk_index squid 150
+  splunk_load squid $SRC $FILE secrepo /var/log/squid/access.log \
+    "squid" "s|115|163|g"
 
 
   # Squid Proxy Logs, from https://www.secrepo.com/
