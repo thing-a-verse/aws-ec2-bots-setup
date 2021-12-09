@@ -106,6 +106,8 @@ function splunk_load() {
   logger -s "Loading $STAGING into $INDEX_NAME "
   splunk add oneshot $STAGING -index $INDEX_NAME -hostname $HOSTNAME -rename-source $SOURCE -sourcetype $SOURCETYPE
 
+  # Tidy up
+  rm $STAGING
 }
 
 
@@ -182,19 +184,19 @@ function main() {
   FILE=auth.log
 
   splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
-    "linux_secure" "s|Dec 10]|Dec 02]|g"
+    "linux_secure" "s|Dec 10\]|Dec 02\]|g"
 
   SRC=https://www.secrepo.com/auth.log/auth.log.gz
-  FILE=auth.log
+  FILE=auth.log.gz
   splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log \
     "linux_secure"
 
   # Squid Proxy Logs, from https://www.secrepo.com/
-  SRC=https://www.secrepo.com/squid/access.log.gz
-  FILE=squid.log.gz
-  splunk_index squid_proxy 100
-  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
-    "squid" "s|1157699|3156799|g"
+  #SRC=https://www.secrepo.com/squid/access.log.gz
+  #FILE=squid.log.gz
+  #splunk_index squid_proxy 100
+  #splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log \
+  #  "squid" "s|1157699|3156799|g"
 
 }
 
