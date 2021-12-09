@@ -119,13 +119,13 @@ function main() {
   DOMAIN=acme.com
   NAME="Alice"
   logger -s "Create user $USER"
-  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
+  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass false
 
   # Create bob
   USER=bob
   NAME="Robert"
   logger -s "Create user $USER"
-  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass true
+  splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass false
 
 
   # https://docs.splunk.com/Documentation/Splunk/8.2.3/Indexer/Configureindexstorage
@@ -135,8 +135,13 @@ function main() {
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/Apache/Apache_2k.log
   FILE=apache.log
   splunk_index apache 100
-  splunk_load apache $SRC $FILE grumpy /var/log/httpd/error_log "apache:error"
+  splunk_load apache $SRC $FILE logpai /var/log/httpd/error_log "apache:error"
 
+
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-01.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-02.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-03.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/error_log "apache:access"
 
   # Create index
   splunk_index windows 100
@@ -145,8 +150,13 @@ function main() {
   SRC=https://raw.githubusercontent.com/logpai/loghub/master/OpenSSH/SSH_2k.log
   FILE=windows.log
   splunk_index osnixsec 100
-  splunk_load osnixsec $SRC $FILE LabSZ /var/log/auth.log "linux_secure"
+  splunk_load osnixsec $SRC $FILE logpai /var/log/auth.log "linux_secure"
 
+  # Squid Proxy Logs, from https://www.secrepo.com/
+  SRC=https://www.secrepo.com/squid/access.log.gz
+  FILE=squid.log.gz
+  splunk_index squid_proxy 100
+  splunk_load squid_proxy $SRC $FILE secrepo /var/log/squid/access.log "squid:access"
 
 }
 
