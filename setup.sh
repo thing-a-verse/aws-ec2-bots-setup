@@ -165,6 +165,13 @@ function main() {
     "apache:access" "s|Jan/2017|Dec/2021|g"
   splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-04.gz $FILE secrepo /var/log/httpd/access_log \
     "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-05.gz $FILE secrepo /var/log/httpd/access_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-06.gz $FILE secrepo /var/log/httpd/access_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+  splunk_load apache https://www.secrepo.com/self.logs/access.log.2017-01-07.gz $FILE secrepo /var/log/httpd/access_log \
+    "apache:access" "s|Jan/2017|Dec/2021|g"
+
 
   # Create index
   splunk_index windows 100
