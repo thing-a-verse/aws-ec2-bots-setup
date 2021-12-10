@@ -212,6 +212,13 @@ function main() {
   splunk_index dns 100
   splunk_load dns $SRC $FILE secrepo /var/log/dns.log \
     "dns" "s|1331|1638|g"
+
+  SRC=https://github.com/OTRF/Security-Datasets/blob/master/datasets/compound/apt29/day1/apt29_evals_day1_manual.zip?raw=true
+  FILE=interesting.zip
+  splunk_index=o365
+  splunk_load o365 $SRC $FILE o365 host "host"
+
+
 }
 
 SVC=${2:-ctfd}
