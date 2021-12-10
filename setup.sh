@@ -99,7 +99,7 @@ function splunk_load() {
       gzip -cd $STAGING > $TMPFILE
     elif ( file $STAGING | grep -q Zip ); then
       logger -s "Uncompressing (zip) $STAGING"
-      unzip -cd $STAGING > $TMPFILE
+      unzip -p $STAGING | cat > $TMPFILE
     else
       cp $STAGING $TMPFILE
     fi
