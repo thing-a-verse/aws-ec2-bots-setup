@@ -35,6 +35,10 @@ function root_pre() {
   headline_logger -s "Installing wget"
   sudo yum install wget -y
 
+  # Handy for fetching splunk rpm file
+  headline_logger -s "Installing unzip"
+  sudo yum install unzip -y
+
   logger -s "Fetch splunk 8.2.3"
   # splunk 8.2.2.3
   PACKAGE=splunk-8.2.3-cd0848707637-linux-2.6-x86_64.rpm
@@ -91,10 +95,13 @@ function splunk_load() {
   if [ ! -z $SEDSTR ]; then
     TMPFILE=tmp.log
     if ( file $STAGING | grep -q compressed ); then
-       logger -s "Uncompressing $STAGING"
-       gzip -cd $STAGING > $TMPFILE
+      logger -s "Uncompressing (gzip) $STAGING"
+      gzip -cd $STAGING > $TMPFILE
+    elif ( file $STAGING | grep -q Zip ); then
+      logger -s "Uncompressing (zip) $STAGING"
+      unzip -cd $STAGING > $TMPFILE
     else
-       cp $STAGING $TMPFILE
+      cp $STAGING $TMPFILE
     fi
     logger -s "Applying transformation $SEDSTR to $TMPFILE"
     sed -i $SEDSTR $TMPFILE
