@@ -216,15 +216,15 @@ function main() {
 
 
   #https://github.com/OTRF/Security-Datasets/tree/master/datasets/compound/apt29/day1
-  splunk_index o365 100
+  splunk_index azure 100
 
   SRC=https://github.com/OTRF/Security-Datasets/blob/master/datasets/compound/apt29/day1/apt29_evals_day1_manual.zip?raw=true
   FILE=interesting.zip
-  splunk_load o365 $SRC $FILE o365 apt29 "host" "s|\"EventTime\":\"2020-05-01\"|\"EventTime\":\"2021-12-01\"|g"
+  splunk_load o365 $SRC $FILE azure apt29 "host" "s|\"EventTime\":\"2020-05-01\"|\"EventTime\":\"2021-12-01\"|g"
 
   SRC=https://github.com/OTRF/Security-Datasets/blob/master/datasets/compound/apt29/day2/apt29_evals_day2_manual.zip?raw=true
   FILE=interesting.zip
-  splunk_load o365 $SRC $FILE o365 apt29 "host" "s|\"EventTime\":\"2020-05-02\"|\"EventTime\":\"2021-12-02\"|g"
+  splunk_load o365 $SRC $FILE azure apt29 "host" "s|\"EventTime\":\"2020-05-02\"|\"EventTime\":\"2021-12-02\"|g"
 
 
 
