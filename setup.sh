@@ -133,7 +133,7 @@ function main() {
 
   # create alice
   USER=alice
-  PASS=password123
+  PASS=iloveyou
   ROLE=user
   DOMAIN=acme.com
   NAME="Alice"
@@ -142,6 +142,7 @@ function main() {
 
   # Create bob
   USER=bob
+  PASS=princess
   NAME="Robert"
   logger -s "Create user $USER"
   splunk add user $USER -password $PASS -role $ROLE -email $USER@$DOMAIN -full-name $NAME -force-change-pass false
@@ -215,8 +216,8 @@ function main() {
 
   SRC=https://github.com/OTRF/Security-Datasets/blob/master/datasets/compound/apt29/day1/apt29_evals_day1_manual.zip?raw=true
   FILE=interesting.zip
-  splunk_index=o365
-  splunk_load o365 $SRC $FILE o365 host "host"
+  splunk_index o365 100
+  splunk_load o365 $SRC $FILE o365 host "host" "s|\"EventTime\":\"2020-05-01\"|\"EventTime\":\"2021-12-01\"|g"
 
 
 }
