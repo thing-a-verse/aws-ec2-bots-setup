@@ -65,6 +65,22 @@ function root_post() {
   headline_logger -s "Start ${0} installation as `whoami`"
   # Steps to run as root after main
 
+
+  # Should leave splunk running as a service
+
+  logger -s "Install splunk.service"
+
+  sudo /opt/splunk/bin/splunk enable boot-start -systemd-unit-file-name splunk
+
+
+  logger -s "Enable splunk.service"
+  #systemctl enable splunk
+
+  logger -s "Start splunk.service"
+  #systemctl start splunk
+
+  service splunk start
+
 }
 
 function splunk_index() {
@@ -232,6 +248,8 @@ function main() {
   SRC=https://github.com/OTRF/Security-Datasets/blob/master/datasets/compound/apt29/day2/apt29_evals_day2_manual.zip?raw=true
   FILE=interesting.zip
   splunk_load azure $SRC $FILE apt29 default "host" "s|2020-05-02|2021-12-02|g;s|2020-05-03|2021-12-02|g"
+
+
 
 
 
