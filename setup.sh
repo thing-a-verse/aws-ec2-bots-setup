@@ -142,6 +142,15 @@ function main() {
 
 
   logger -s "PATH=`echo $PATH`"
+
+  logger -s "Configure authentication.conf such that there is no account lockout"
+
+  CONFIG=/opt/splunk/etc/system/local/authentication.conf
+  cp /opt/splunk/etc/system/default/authentication.conf $CONFIG
+  logger -s "Update the $CONFIG: configure: lockoutUsers = false"
+  sed -i "s|lockoutUsers = true|lockoutUsers = false|g" $CONFIG
+
+  
   logger -s "Start splunk and accept the EULA"
 
   USER=admin
